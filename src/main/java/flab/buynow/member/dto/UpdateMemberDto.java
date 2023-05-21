@@ -1,5 +1,6 @@
 package flab.buynow.member.dto;
 
+import flab.buynow.enums.MemberType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -35,6 +36,6 @@ public class UpdateMemberDto {
 
     private LocalDateTime joinDate;
     private LocalDateTime lastUpdatedDate;
-    private String adminYn;
+    private MemberType adminYn;
 
 }
