@@ -35,3 +35,8 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### HTTP API ###
+/http
+http-client.env.json
+http-client.private.env.json
