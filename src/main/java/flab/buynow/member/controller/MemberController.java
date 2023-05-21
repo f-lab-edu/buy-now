@@ -38,13 +38,13 @@ public class MemberController {
     @PostMapping
     public ResponseEntity create(@RequestBody @Valid InsertMemberDto member) {
         Member joinMember = Member.builder()
-                .loginId(member.getLoginId())
-                .password(member.getPassword())
-                .name(member.getName())
-                .tel(member.getTel())
-                .address(member.getAddress())
-                .addressDetail(member.getAddressDetail())
-                .build();
+            .loginId(member.getLoginId())
+            .password(member.getPassword())
+            .name(member.getName())
+            .tel(member.getTel())
+            .address(member.getAddress())
+            .addressDetail(member.getAddressDetail())
+            .build();
 
         return ResponseEntity.ok().body(service.create(joinMember));
     }
@@ -53,15 +53,16 @@ public class MemberController {
      * 회원정보수정
      */
     @PutMapping("/{loginId}")
-    public ResponseEntity update(@PathVariable String loginId, @RequestBody @Valid UpdateMemberDto member) {
+    public ResponseEntity update(@PathVariable String loginId,
+        @RequestBody @Valid UpdateMemberDto member) {
         Member updateMember = Member.builder()
-                .loginId(loginId)
-                .password(member.getPassword())
-                .name(member.getName())
-                .tel(member.getTel())
-                .address(member.getAddress())
-                .addressDetail(member.getAddressDetail())
-                .build();
+            .loginId(loginId)
+            .password(member.getPassword())
+            .name(member.getName())
+            .tel(member.getTel())
+            .address(member.getAddress())
+            .addressDetail(member.getAddressDetail())
+            .build();
 
         return ResponseEntity.ok().body(service.update(updateMember));
     }

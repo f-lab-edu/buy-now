@@ -10,8 +10,12 @@ import java.util.Optional;
 @Mapper
 @Repository
 public interface MemberRepository {
+
     Optional<Member> findByLoginId(String loginId);
+
     List<Member> getMembers();
+
     int create(Member member);
+
     int update(Member member);
 }

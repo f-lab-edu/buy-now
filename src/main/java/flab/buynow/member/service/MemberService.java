@@ -20,14 +20,15 @@ public class MemberService {
     }
 
     public List<Member> getMembers(int pageNum, int pageSize) {
-        return PageHelper.startPage(pageNum, pageSize).doSelectPage(()-> repository.getMembers());
+        return PageHelper.startPage(pageNum, pageSize).doSelectPage(() -> repository.getMembers());
     }
 
     public int create(Member member) {
         Optional<Member> hasMember = repository.findByLoginId(member.getLoginId());
 
-        if(!hasMember.isEmpty())
+        if (!hasMember.isEmpty()) {
             throw new IllegalStateException("ID가 이미 존재합니다.");
+        }
 
         return repository.create(member);
     }
