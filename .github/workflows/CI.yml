@@ -2,7 +2,7 @@ name: buy-now CI
 
 on:
   push:
-    branches: [ "master", "develop" ]
+    branches: [ "master", "develop", "features/*" ]
   pull_request:
     branches: [ "develop" ]
 
