@@ -1,5 +1,6 @@
 package flab.buynow.member.service;
 
+import com.github.pagehelper.PageHelper;
 import flab.buynow.member.domain.Member;
 import flab.buynow.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +19,8 @@ public class MemberService {
         return repository.findByLoginId(loginId);
     }
 
-    public List<Member> getMembers() {
-        return repository.getMembers();
+    public List<Member> getMembers(int pageNum, int pageSize) {
+        return PageHelper.startPage(pageNum, pageSize).doSelectPage(()-> repository.getMembers());
     }
 
     public int create(Member member) {

@@ -1,6 +1,10 @@
 package flab.buynow.member.domain;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
 
 import java.time.LocalDateTime;
 

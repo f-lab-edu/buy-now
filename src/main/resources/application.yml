@@ -1,10 +1,6 @@
 spring:
-  datasource:
-    hikari:
-      driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-      jdbc-url: jdbc:log4jdbc:mysql://localhost:3307/buy_now
-      username: root
-      password: Wjddms12!@
+  profiles:
+    include: secret
 
 logging:
   level:
@@ -14,3 +10,8 @@ logging:
       resultsettable: INFO
       sqlonly: OFF
       sqltiming: INFO
+
+pagehelper:
+  propertyName: propertyValue
+  reasonable: false
+  defaultCount: true

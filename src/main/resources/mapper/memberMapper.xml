@@ -4,41 +4,41 @@
 
     <select id="findByLoginId" parameterType="java.lang.String" resultType="flab.buynow.member.domain.Member">
         SELECT
-            ID
-            ,LOGIN_ID
-            ,PASSWORD
-            ,NAME
-            ,TEL
-            ,ADDRESS
-            ,ADDRESS_DETAIL
-            ,JOIN_DATE
-            ,ADMIN_YN
-        FROM MEMBER
-        WHERE LOGIN_ID = #{loginId}
+            id
+            ,login_id
+            ,password
+            ,name
+            ,tel
+            ,address
+            ,address_detail
+            ,join_date
+            ,admin_yn
+        FROM member
+        WHERE login_id = #{loginId}
     </select>
 
     <select id="getMembers" resultType="flab.buynow.member.domain.Member">
         SELECT
-            ID
-            ,LOGIN_ID
-            ,PASSWORD
-            ,NAME
-            ,TEL
-            ,ADDRESS
-            ,ADDRESS_DETAIL
-            ,JOIN_DATE
-        FROM MEMBER
+            id
+            ,login_id
+            ,password
+            ,name
+            ,tel
+            ,address
+            ,address_detail
+            ,join_date
+        FROM member
     </select>
 
     <insert id="create" parameterType="flab.buynow.member.domain.Member">
-        INSERT INTO MEMBER(
-            LOGIN_ID
-            ,PASSWORD
-            ,NAME
-            ,TEL
-            ,ADDRESS
-            ,ADDRESS_DETAIL
-            ,JOIN_DATE
+        INSERT INTO member(
+            login_id
+            ,password
+            ,name
+            ,tel
+            ,address
+            ,address_detail
+            ,join_date
         ) VALUES(
             #{loginId}
             ,#{password}
@@ -51,14 +51,14 @@
     </insert>
 
     <update id="update" parameterType="flab.buynow.member.domain.Member">
-        UPDATE MEMBER SET
-            PASSWORD = #{password}
-            ,NAME = #{name}
-            ,TEL = #{tel}
-            ,ADDRESS = #{address}
-            ,ADDRESS_DETAIL = #{addressDetail}
-            ,LAST_UPDATED_DATE = NOW()
-        WHERE LOGIN_ID = #{loginId}
+        UPDATE member SET
+            password = #{password}
+            ,name = #{name}
+            ,tel = #{tel}
+            ,address = #{address}
+            ,address_detail = #{addressDetail}
+            ,last_updated_date = NOW()
+        WHERE login_id = #{loginId}
     </update>
 
 </mapper>
