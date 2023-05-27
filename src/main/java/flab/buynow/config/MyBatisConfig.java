@@ -26,7 +26,7 @@ public class MyBatisConfig {
     }
 
     @Bean
-    @ConfigurationProperties(prefix="spring.datasource.hikari")
+    @ConfigurationProperties(prefix = "spring.datasource.hikari")
     public HikariConfig hikariConfig() {
         return new HikariConfig();
     }
@@ -41,8 +41,10 @@ public class MyBatisConfig {
     public SqlSessionFactoryBean sqlSessionFactory(DataSource dataSource) throws IOException {
         SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
         factoryBean.setDataSource(dataSource);
-        factoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:/mapper/*.xml"));
-        factoryBean.setConfigLocation(applicationContext.getResource("classpath:mybatis-config.xml"));
+        factoryBean.setMapperLocations(
+            new PathMatchingResourcePatternResolver().getResources("classpath:/mapper/*.xml"));
+        factoryBean.setConfigLocation(
+            applicationContext.getResource("classpath:mybatis-config.xml"));
         return factoryBean;
     }
 
