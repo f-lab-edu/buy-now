@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="flab.buynow.member.repository.MemberRepository">
+
+    <select id="findByLoginId" parameterType="java.lang.String" resultType="flab.buynow.member.domain.Member">
+        SELECT
+            id
+            ,login_id
+            ,password
+            ,name
+            ,tel
+            ,address
+            ,address_detail
+            ,join_date
+            ,admin_yn
+        FROM member
+        WHERE login_id = #{loginId}
+    </select>
+
+    <select id="getMembers" resultType="flab.buynow.member.domain.Member">
+        SELECT
+            id
+            ,login_id
+            ,password
+            ,name
+            ,tel
+            ,address
+            ,address_detail
+            ,join_date
+        FROM member
+    </select>
+
+    <insert id="create" parameterType="flab.buynow.member.domain.Member">
+        INSERT INTO member(
+            login_id
+            ,password
+            ,name
+            ,tel
+            ,address
+            ,address_detail
+            ,join_date
+        ) VALUES(
+            #{loginId}
+            ,#{password}
+            ,#{name}
+            ,#{tel}
+            ,#{address}
+            ,#{addressDetail}
+            ,NOW()
+        )
+    </insert>
+
+    <update id="update" parameterType="flab.buynow.member.domain.Member">
+        UPDATE member SET
+            password = #{password}
+            ,name = #{name}
+            ,tel = #{tel}
+            ,address = #{address}
+            ,address_detail = #{addressDetail}
+            ,last_updated_date = NOW()
+        WHERE login_id = #{loginId}
+    </update>
+
+</mapper>

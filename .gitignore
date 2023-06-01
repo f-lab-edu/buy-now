@@ -36,7 +36,6 @@ out/
 ### VS Code ###
 .vscode/
 
-### API Test ###
-http/
-http-client.env.json
-http-client.private.env.json
+### Secret Properties ###
+application-secret.yml
+
