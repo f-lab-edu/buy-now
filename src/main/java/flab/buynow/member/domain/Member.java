@@ -23,5 +23,5 @@ public class Member {
     private String addressDetail;
     private LocalDateTime joinDate;
     private LocalDateTime lastUpdatedDate;
-    private Boolean adminYn;
+    private boolean adminYn;
 }
