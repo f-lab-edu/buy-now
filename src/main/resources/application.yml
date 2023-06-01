@@ -10,8 +10,3 @@ logging:
       resultsettable: INFO
       sqlonly: OFF
       sqltiming: INFO
-
-pagehelper:
-  propertyName: propertyValue
-  reasonable: false
-  defaultCount: true
