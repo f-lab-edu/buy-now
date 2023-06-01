@@ -27,13 +27,9 @@ public class MemberController {
     /**
      * 전체회원조회
      */
-    @GetMapping("/members/{pageNum}")
-    public ResponseEntity getMembers(@PathVariable Integer pageNum) {
-        if(pageNum < 1) {
-            throw new IllegalStateException("1보다 큰 값을 입력하여야 합니다.");
-        }
-
-        PageInfoDto pageInfo = PageInfoDto.builder().pageNum(pageNum).build();
+    @GetMapping("/members/{limit}/{lastId}")
+    public ResponseEntity getMembers(@PathVariable int limit, @PathVariable int lastId) {
+        PageInfoDto pageInfo = PageInfoDto.builder().limit(limit).lastId(lastId).build();
         return ResponseEntity.ok().body(service.getMembers(pageInfo));
     }
 

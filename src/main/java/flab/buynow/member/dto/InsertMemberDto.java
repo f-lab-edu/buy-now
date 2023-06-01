@@ -38,6 +38,6 @@ public class InsertMemberDto {
 
     private LocalDateTime joinDate;
     private LocalDateTime lastUpdatedDate;
-    private Boolean adminYn;
+    private boolean adminYn;
 
 }

@@ -35,6 +35,6 @@ public class UpdateMemberDto {
 
     private LocalDateTime joinDate;
     private LocalDateTime lastUpdatedDate;
-    private Boolean adminYn;
+    private boolean adminYn;
 
 }

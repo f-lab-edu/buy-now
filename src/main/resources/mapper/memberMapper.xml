@@ -30,7 +30,9 @@
             ,join_date
             ,last_updated_date
         FROM MEMBER
-        LIMIT #{startIndex}, #{pageSize}
+        WHERE id > #{lastId}
+        ORDER BY ID
+        LIMIT #{limit}
     </select>
 
     <insert id="create" parameterType="flab.buynow.member.domain.Member">
