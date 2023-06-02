@@ -30,3 +30,7 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.mockito:mockito-all:1.10.19'
 }
+
+tasks.named("jar") {
+	enabled = false
+}
