@@ -7,7 +7,7 @@ import lombok.Getter;
 @Builder
 public class PageInfoDto {
 
-    private Integer limit;
-    private Integer lastId;
+    private final int limit = 5;
+    private long offset;
 
 }
