@@ -30,7 +30,7 @@
             ,join_date
             ,last_updated_date
         FROM MEMBER
-        WHERE id > #{lastId}
+        WHERE id > #{offset}
         ORDER BY ID
         LIMIT #{limit}
     </select>
