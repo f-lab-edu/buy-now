@@ -1,5 +1,6 @@
 package flab.buynow.item.dto;
 
+import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
@@ -20,11 +21,13 @@ public class UpdateItemDto {
     private String name;
 
     @Positive
+    @DecimalMax("10000000")
     @Digits(integer = 8, fraction = 0)
     @NotNull(message = "빈 값을 입력하실 수 없습니다.")
     private BigDecimal price;
 
     @Positive
+    @DecimalMax("10000000")
     @Digits(integer = 8, fraction = 0)
     private BigDecimal salePrice;
 
