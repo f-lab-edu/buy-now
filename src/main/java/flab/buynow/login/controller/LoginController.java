@@ -28,7 +28,7 @@ public class LoginController {
 
         HttpSession session = request.getSession();
         session.setAttribute("loginId", loginMember.get().getLoginId());
-        session.setAttribute("admin", loginMember.get().getAdminYn());
+        session.setAttribute("admin", loginMember.get().isAdminYn());
 
         return ResponseEntity.ok().body(loginMember);
     }
