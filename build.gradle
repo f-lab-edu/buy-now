@@ -25,6 +25,7 @@ dependencies {
 	implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
 	implementation 'com.github.pagehelper:pagehelper-spring-boot-starter:1.4.6' //페이징(like Pageable of JPA)
 	implementation 'org.apache.commons:commons-lang3:3.12.0'
+	implementation 'com.jcraft:jsch:0.1.55' // DB SSH tunneling
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	annotationProcessor 'org.projectlombok:lombok'
