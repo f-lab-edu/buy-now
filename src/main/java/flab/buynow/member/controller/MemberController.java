@@ -27,9 +27,9 @@ public class MemberController {
     /**
      * 전체회원조회
      */
-    @GetMapping("/members/{limit}/{lastId}")
-    public ResponseEntity getMembers(@PathVariable int limit, @PathVariable int lastId) {
-        PageInfoDto pageInfo = PageInfoDto.builder().limit(limit).lastId(lastId).build();
+    @GetMapping("/members")
+    public ResponseEntity getMembers(@RequestParam(defaultValue = "0") Long offset) {
+        PageInfoDto pageInfo = PageInfoDto.builder().offset(offset).build();
         return ResponseEntity.ok().body(service.getMembers(pageInfo));
     }
 
