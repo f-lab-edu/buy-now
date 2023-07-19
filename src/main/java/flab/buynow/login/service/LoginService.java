@@ -16,11 +16,9 @@ public class LoginService {
     public Optional<Member> login(String loginId, String password) {
         Optional<Member> loginMember = memberRepository.findByLoginId(loginId);
 
-        if (loginMember.isEmpty()) {
-            throw new IllegalArgumentException("존재하지 않는 회원입니다.");
-        }
+        Member member = loginMember.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
 
-        if (!loginMember.get().getPassword().equals(password)) {
+        if (!member.getPassword().equals(password)) {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
 
