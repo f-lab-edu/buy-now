@@ -2,6 +2,7 @@ package flab.buynow.member.controller;
 
 import flab.buynow.member.domain.Member;
 import flab.buynow.member.dto.InsertMemberDto;
+import flab.buynow.member.dto.PageInfoDto;
 import flab.buynow.member.dto.UpdateMemberDto;
 import flab.buynow.member.service.MemberService;
 import jakarta.validation.Valid;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/member")
 public class MemberController {
 
     private final MemberService service;
@@ -19,7 +19,7 @@ public class MemberController {
     /**
      * 회원조회
      */
-    @GetMapping("/{loginId}")
+    @GetMapping("/member/{loginId}")
     public ResponseEntity findByLoginId(@PathVariable String loginId) {
         return ResponseEntity.ok().body(service.findByLoginId(loginId));
     }
@@ -27,15 +27,16 @@ public class MemberController {
     /**
      * 전체회원조회
      */
-    @GetMapping("{pageNum}/{pageSize}")
-    public ResponseEntity getMembers(@PathVariable int pageNum, @PathVariable int pageSize) {
-        return ResponseEntity.ok().body(service.getMembers(pageNum, pageSize));
+    @GetMapping("/members")
+    public ResponseEntity getMembers(@RequestParam(defaultValue = "0") Long offset) {
+        PageInfoDto pageInfo = PageInfoDto.builder().offset(offset).build();
+        return ResponseEntity.ok().body(service.getMembers(pageInfo));
     }
 
     /**
      * 회원가입
      */
-    @PostMapping
+    @PostMapping("/member")
     public ResponseEntity create(@RequestBody @Valid InsertMemberDto member) {
         Member joinMember = Member.builder()
             .loginId(member.getLoginId())
@@ -52,7 +53,7 @@ public class MemberController {
     /**
      * 회원정보수정
      */
-    @PutMapping("/{loginId}")
+    @PutMapping("/member/{loginId}")
     public ResponseEntity update(@PathVariable String loginId,
         @RequestBody @Valid UpdateMemberDto member) {
         Member updateMember = Member.builder()

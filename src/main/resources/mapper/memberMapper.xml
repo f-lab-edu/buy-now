@@ -12,12 +12,13 @@
             ,address
             ,address_detail
             ,join_date
+            ,last_updated_date
             ,admin_yn
-        FROM member
+        FROM MEMBER
         WHERE login_id = #{loginId}
     </select>
 
-    <select id="getMembers" resultType="flab.buynow.member.domain.Member">
+    <select id="getMembers" parameterType="flab.buynow.member.dto.PageInfoDto" resultType="flab.buynow.member.domain.Member">
         SELECT
             id
             ,login_id
@@ -27,11 +28,15 @@
             ,address
             ,address_detail
             ,join_date
-        FROM member
+            ,last_updated_date
+        FROM MEMBER
+        WHERE id > #{offset}
+        ORDER BY ID
+        LIMIT #{limit}
     </select>
 
     <insert id="create" parameterType="flab.buynow.member.domain.Member">
-        INSERT INTO member(
+        INSERT INTO MEMBER(
             login_id
             ,password
             ,name
@@ -51,7 +56,7 @@
     </insert>
 
     <update id="update" parameterType="flab.buynow.member.domain.Member">
-        UPDATE member SET
+        UPDATE MEMBER SET
             password = #{password}
             ,name = #{name}
             ,tel = #{tel}

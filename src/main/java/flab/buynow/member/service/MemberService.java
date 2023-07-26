@@ -1,7 +1,7 @@
 package flab.buynow.member.service;
 
-import com.github.pagehelper.PageHelper;
 import flab.buynow.member.domain.Member;
+import flab.buynow.member.dto.PageInfoDto;
 import flab.buynow.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,8 +19,8 @@ public class MemberService {
         return repository.findByLoginId(loginId);
     }
 
-    public List<Member> getMembers(int pageNum, int pageSize) {
-        return PageHelper.startPage(pageNum, pageSize).doSelectPage(() -> repository.getMembers());
+    public List<Member> getMembers(PageInfoDto pageInfo) {
+        return repository.getMembers(pageInfo);
     }
 
     public int create(Member member) {

@@ -1,6 +1,5 @@
 package flab.buynow.member.domain;
 
-import flab.buynow.enums.MemberType;
 import lombok.Getter;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -24,9 +23,5 @@ public class Member {
     private String addressDetail;
     private LocalDateTime joinDate;
     private LocalDateTime lastUpdatedDate;
-    private MemberType adminYn;
-
-    public String getAdminYn() {
-        return this.adminYn.getAdminYn();
-    }
+    private boolean adminYn;
 }
