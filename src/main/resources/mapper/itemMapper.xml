@@ -15,7 +15,7 @@
         WHERE id = #{id}
     </select>
 
-    <select id="getItems" parameterType="flab.buynow.common.dto.PageInfoDto" resultType="flab.buynow.item.domain.Item">
+    <select id="findAll" parameterType="flab.buynow.common.dto.PageInfoDto" resultType="flab.buynow.item.domain.Item">
         SELECT
             id
             ,name

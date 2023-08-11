@@ -18,8 +18,8 @@ public class ItemService {
         return repository.findById(id);
     }
 
-    public List<Item> getItems(PageInfoDto pageInfo) {
-        return repository.getItems(pageInfo);
+    public List<Item> findAll(PageInfoDto pageInfo) {
+        return repository.findAll(pageInfo);
     }
 
     public int create(Item item) {

@@ -34,9 +34,9 @@ public class ItemController {
      * 전체상품조회
      */
     @GetMapping("/items")
-    public ResponseEntity getItems(@RequestParam(defaultValue = "0") long offset) {
+    public ResponseEntity findAll(@RequestParam(defaultValue = "0") long offset) {
         PageInfoDto pageInfo = PageInfoDto.builder().offset(offset).build();
-        return ResponseEntity.ok().body(service.getItems(pageInfo));
+        return ResponseEntity.ok().body(service.findAll(pageInfo));
     }
 
     /**

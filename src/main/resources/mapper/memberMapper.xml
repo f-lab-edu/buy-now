@@ -18,7 +18,7 @@
         WHERE login_id = #{loginId}
     </select>
 
-    <select id="getMembers" parameterType="flab.buynow.member.dto.PageInfoDto" resultType="flab.buynow.member.domain.Member">
+    <select id="findAll" parameterType="flab.buynow.member.dto.PageInfoDto" resultType="flab.buynow.member.domain.Member">
         SELECT
             id
             ,login_id

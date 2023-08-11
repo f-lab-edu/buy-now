@@ -19,8 +19,8 @@ public class MemberService {
         return repository.findByLoginId(loginId);
     }
 
-    public List<Member> getMembers(PageInfoDto pageInfo) {
-        return repository.getMembers(pageInfo);
+    public List<Member> findAll(PageInfoDto pageInfo) {
+        return repository.findAll(pageInfo);
     }
 
     public int create(Member member) {
