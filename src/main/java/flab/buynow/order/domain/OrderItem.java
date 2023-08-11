@@ -15,7 +15,7 @@ public class OrderItem {
 
     private Long orderId;
     private Long itemId;
-    private int ea;
+    private int quantity;
     private BigDecimal price;
 
 }

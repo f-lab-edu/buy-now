@@ -18,7 +18,7 @@ public class Member {
     private String loginId;
     private String password;
     private String name;
-    private String tel;
+    private String telephoneNumber;
     private String address;
     private String addressDetail;
     private LocalDateTime joinDate;

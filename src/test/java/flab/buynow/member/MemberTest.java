@@ -29,7 +29,7 @@ class MemberTest {
                 .loginId("testMember")
                 .password("0000")
                 .name("테스트회원")
-                .tel("02-000-0000")
+                .telephoneNumber("02-000-0000")
                 .address("서울시 강남구 역삼동")
                 .addressDetail("123-456")
                 .build();
@@ -60,13 +60,13 @@ class MemberTest {
                 .loginId(this.newMember.getLoginId())
                 .password("1234")
                 .name("테스트회원수정")
-                .tel("010-0000-0000")
+                .telephoneNumber("010-0000-0000")
                 .build();
         repository.update(this.newMember);
         Optional<Member> updateMember = repository.findByLoginId(this.newMember.getLoginId());
 
         assertThat(updateMember.get().getPassword()).isEqualTo("1234");
         assertThat(updateMember.get().getName()).isEqualTo("테스트회원수정");
-        assertThat(updateMember.get().getTel()).isEqualTo("010-0000-0000");
+        assertThat(updateMember.get().getTelephoneNumber()).isEqualTo("010-0000-0000");
     }
 }

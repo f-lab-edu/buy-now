@@ -7,10 +7,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum ItemStatus {
 
-    O("Out of Stock"),
-    N("Normal Price Item"),
-    S("Sale Price Item");
-
-    private String itemStatusName;
+    NO_STOCK,
+    NO_SALE,
+    SALE;
 
 }

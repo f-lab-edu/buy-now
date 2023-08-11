@@ -8,7 +8,7 @@
             user_id,
             order_no,
             name,
-            tel,
+            telephone_number,
             address,
             address_detail,
             order_date,
@@ -17,13 +17,13 @@
         WHERE id = #{id}
     </select>
 
-    <select id="getOrders" parameterType="flab.buynow.common.dto.PageInfoDto" resultType="flab.buynow.order.domain.Orders">
+    <select id="findAll" parameterType="flab.buynow.common.dto.PageInfoDto" resultType="flab.buynow.order.domain.Orders">
         SELECT
             id,
             user_id,
             order_no,
             name,
-            tel,
+            telephone_number,
             address,
             address_detail,
             order_date,
@@ -34,34 +34,12 @@
             LIMIT #{limit}
     </select>
 
-    <select id="getOrderItem" parameterType="java.lang.Long" resultType="flab.buynow.order.domain.OrderItem">
-        SELECT
-            order_id,
-            item_id,
-            ea,
-            price
-        FROM ORDER_ITEM
-        WHERE order_id = #{orderId}
-    </select>
-
-    <select id="getItemInfo" parameterType="java.lang.Long" resultType="flab.buynow.item.domain.Item">
-        SELECT
-            price,
-            sale_price,
-            stock,
-            start_date,
-            end_date
-        FROM ITEM
-        WHERE id = #{id}
-        FOR UPDATE
-    </select>
-
-    <insert id="insertOrder" parameterType="flab.buynow.order.domain.Orders" useGeneratedKeys="true" keyProperty="id">
+    <insert id="create" parameterType="flab.buynow.order.domain.Orders" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO ORDERS(
             user_id
             ,order_no
             ,name
-            ,tel
+            ,telephone_number
             ,address
             ,address_detail
             ,order_date
@@ -70,7 +48,7 @@
             #{userId}
             ,#{orderNo}
             ,#{name}
-            ,#{tel}
+            ,#{telephoneNumber}
             ,#{address}
             ,#{addressDetail}
             ,NOW()
@@ -78,44 +56,19 @@
         )
     </insert>
 
-    <insert id="insertOrderItem" parameterType="flab.buynow.order.domain.OrderItem">
-        INSERT INTO ORDER_ITEM(
-            order_id
-            ,item_id
-            ,ea
-            ,price
-        ) VALUES(
-            #{orderId}
-            ,#{itemId}
-            ,#{ea}
-            ,#{price}
-        )
-    </insert>
-
     <update id="update" parameterType="flab.buynow.order.domain.Orders">
         UPDATE ORDERS SET
             name = #{name}
-            ,tel = #{tel}
+            ,telephone_number = #{telephoneNumber}
             ,address = #{address}
             ,address_detail = #{addressDetail}
         WHERE id = #{id}
     </update>
 
-    <update id="cancel" parameterType="flab.buynow.order.domain.Orders">
+    <update id="cancel" parameterType="java.lang.Long">
         UPDATE ORDERS SET
-            status = #{status}
-        WHERE id = #{id}
-    </update>
-
-    <update id="minusStock" parameterType="flab.buynow.item.domain.Item">
-        UPDATE ITEM SET
-            stock = #{stock}
-        WHERE id = #{id}
-    </update>
-
-    <update id="plusStock" parameterType="flab.buynow.item.domain.Item">
-        UPDATE ITEM SET
-            stock = #{stock}
+            status = 'CANCEL'
+            ,cancel_date = NOW()
         WHERE id = #{id}
     </update>
 

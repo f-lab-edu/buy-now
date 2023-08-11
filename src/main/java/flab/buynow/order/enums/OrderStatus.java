@@ -7,9 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum OrderStatus {
 
-    O("Order"),
-    C("Cancel");
-
-    private String orderStatusName;
+    NORMAL,
+    CANCEL;
 
 }
