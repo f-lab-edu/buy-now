@@ -28,9 +28,9 @@ public class MemberController {
      * 전체회원조회
      */
     @GetMapping("/members")
-    public ResponseEntity getMembers(@RequestParam(defaultValue = "0") Long offset) {
+    public ResponseEntity findAll(@RequestParam(defaultValue = "0") Long offset) {
         PageInfoDto pageInfo = PageInfoDto.builder().offset(offset).build();
-        return ResponseEntity.ok().body(service.getMembers(pageInfo));
+        return ResponseEntity.ok().body(service.findAll(pageInfo));
     }
 
     /**
@@ -42,7 +42,7 @@ public class MemberController {
             .loginId(member.getLoginId())
             .password(member.getPassword())
             .name(member.getName())
-            .tel(member.getTel())
+            .telephoneNumber(member.getTelephoneNumber())
             .address(member.getAddress())
             .addressDetail(member.getAddressDetail())
             .build();
@@ -60,7 +60,7 @@ public class MemberController {
             .loginId(loginId)
             .password(member.getPassword())
             .name(member.getName())
-            .tel(member.getTel())
+            .telephoneNumber(member.getTelephoneNumber())
             .address(member.getAddress())
             .addressDetail(member.getAddressDetail())
             .build();

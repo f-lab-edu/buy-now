@@ -12,8 +12,10 @@ import org.springframework.stereotype.Repository;
 public interface ItemRepository {
 
     Optional<Item> findById(Long id);
-    List<Item> getItems(PageInfoDto pageInfo);
+    List<Item> findAll(PageInfoDto pageInfo);
     int create(Item item);
     int update(Item item);
+    int minusStock(Item item);
+    int plusStock(Item item);
 
 }

@@ -3,6 +3,8 @@ package flab.buynow.item.service;
 import flab.buynow.common.dto.PageInfoDto;
 import flab.buynow.item.domain.Item;
 import flab.buynow.item.repository.ItemRepository;
+import flab.buynow.order.enums.ItemStatus;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +20,8 @@ public class ItemService {
         return repository.findById(id);
     }
 
-    public List<Item> getItems(PageInfoDto pageInfo) {
-        return repository.getItems(pageInfo);
+    public List<Item> findAll(PageInfoDto pageInfo) {
+        return repository.findAll(pageInfo);
     }
 
     public int create(Item item) {
@@ -30,4 +32,7 @@ public class ItemService {
         return repository.update(item);
     }
 
+    public BigDecimal getTotalPrice(Item item, ItemStatus itemStatus, BigDecimal ea) {
+        return ea.multiply(itemStatus.equals(ItemStatus.NO_SALE) ? item.getPrice() : item.getSalePrice());
+    }
 }

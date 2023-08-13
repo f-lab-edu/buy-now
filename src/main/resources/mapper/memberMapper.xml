@@ -8,7 +8,7 @@
             ,login_id
             ,password
             ,name
-            ,tel
+            ,telephone_number
             ,address
             ,address_detail
             ,join_date
@@ -18,13 +18,13 @@
         WHERE login_id = #{loginId}
     </select>
 
-    <select id="getMembers" parameterType="flab.buynow.member.dto.PageInfoDto" resultType="flab.buynow.member.domain.Member">
+    <select id="findAll" parameterType="flab.buynow.member.dto.PageInfoDto" resultType="flab.buynow.member.domain.Member">
         SELECT
             id
             ,login_id
             ,password
             ,name
-            ,tel
+            ,telephone_number
             ,address
             ,address_detail
             ,join_date
@@ -40,7 +40,7 @@
             login_id
             ,password
             ,name
-            ,tel
+            ,telephone_number
             ,address
             ,address_detail
             ,join_date
@@ -48,7 +48,7 @@
             #{loginId}
             ,#{password}
             ,#{name}
-            ,#{tel}
+            ,#{telephoneNumber}
             ,#{address}
             ,#{addressDetail}
             ,NOW()
@@ -59,7 +59,7 @@
         UPDATE MEMBER SET
             password = #{password}
             ,name = #{name}
-            ,tel = #{tel}
+            ,telephone_number = #{telephoneNumber}
             ,address = #{address}
             ,address_detail = #{addressDetail}
             ,last_updated_date = NOW()

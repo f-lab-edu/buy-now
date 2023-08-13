@@ -13,10 +13,7 @@ import java.util.Optional;
 public interface MemberRepository {
 
     Optional<Member> findByLoginId(String loginId);
-
-    List<Member> getMembers(PageInfoDto pageInfo);
-
+    List<Member> findAll(PageInfoDto pageInfo);
     int create(Member member);
-
     int update(Member member);
 }
