@@ -13,6 +13,7 @@
             ,end_date
         FROM ITEM
         WHERE id = #{id}
+        FOR UPDATE
     </select>
 
     <select id="findAll" parameterType="flab.buynow.common.dto.PageInfoDto" resultType="flab.buynow.item.domain.Item">
@@ -56,6 +57,18 @@
             ,stock = #{stock}
             ,start_date = #{startDate}
             ,end_date = #{endDate}
+        WHERE id = #{id}
+    </update>
+
+    <update id="minusStock" parameterType="flab.buynow.item.domain.Item">
+        UPDATE ITEM SET
+            stock = stock - #{stock}
+        WHERE id = #{id}
+    </update>
+
+    <update id="plusStock" parameterType="flab.buynow.item.domain.Item">
+        UPDATE ITEM SET
+            stock = stock + #{stock}
         WHERE id = #{id}
     </update>
 

@@ -15,5 +15,7 @@ public interface ItemRepository {
     List<Item> findAll(PageInfoDto pageInfo);
     int create(Item item);
     int update(Item item);
+    int minusStock(Item item);
+    int plusStock(Item item);
 
 }

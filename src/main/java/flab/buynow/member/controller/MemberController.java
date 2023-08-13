@@ -42,7 +42,7 @@ public class MemberController {
             .loginId(member.getLoginId())
             .password(member.getPassword())
             .name(member.getName())
-            .tel(member.getTel())
+            .telephoneNumber(member.getTelephoneNumber())
             .address(member.getAddress())
             .addressDetail(member.getAddressDetail())
             .build();
@@ -60,7 +60,7 @@ public class MemberController {
             .loginId(loginId)
             .password(member.getPassword())
             .name(member.getName())
-            .tel(member.getTel())
+            .telephoneNumber(member.getTelephoneNumber())
             .address(member.getAddress())
             .addressDetail(member.getAddressDetail())
             .build();

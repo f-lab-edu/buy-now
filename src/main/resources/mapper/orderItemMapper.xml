@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="flab.buynow.order.repository.OrderItemRepository">
+
+    <select id="findByOrderId" parameterType="java.lang.Long" resultType="flab.buynow.order.domain.OrderItem">
+        SELECT
+            order_id,
+            item_id,
+            quantity,
+            price
+        FROM ORDER_ITEM
+        WHERE order_id = #{orderId}
+    </select>
+
+    <insert id="create" parameterType="flab.buynow.order.domain.OrderItem">
+        INSERT INTO ORDER_ITEM(
+            order_id
+            ,item_id
+            ,quantity
+            ,price
+        ) VALUES(
+            #{orderId}
+            ,#{itemId}
+            ,#{quantity}
+            ,#{price}
+        )
+    </insert>
+
+</mapper>
