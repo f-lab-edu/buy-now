@@ -31,10 +31,24 @@
 ![image](https://github.com/f-lab-edu/buy-now/assets/121920173/f4fd97d1-70c6-44a6-aa6e-464409559b4e)
 ---
 ### 5. 화면구성
-1. 일반회원(구매자)
-![image](https://github.com/f-lab-edu/buy-now/assets/121920173/bb0c1f11-a062-49a2-b96d-a0ebb1f20ae3)
-2. 관리자(판매자)
-![image](https://github.com/f-lab-edu/buy-now/assets/121920173/11c62a82-2ce1-4c73-bdf7-5ce75e5dedcf)
+<details>
+<summary>1. 일반회원(구매자)</summary>
+<div markdown="1">
+    ![image](https://github.com/f-lab-edu/buy-now/assets/121920173/bb0c1f11-a062-49a2-b96d-a0ebb1f20ae3)
+</div>
+</details>
+
+<details>
+<summary>2. 관리자(판매자)</summary>
+<div markdown="1">
+    ![image](https://github.com/f-lab-edu/buy-now/assets/121920173/11c62a82-2ce1-4c73-bdf7-5ce75e5dedcf)
+</div>
+</details>
+
 ---
-### 6. develop
-1. db 서버가 2대 이상일 때의 sync 맞추기 
+### 6. 후기
+서버세팅과 CI/CD 구축, 부하테스트까지 프로젝트의 처음과 끝을 모두 경험해본 나의 첫번째 프로젝트이다.  
+`타임딜` 프로젝트에 맞게 동시성 처리에 대해 생각해보고, 현재 나의 프로젝트에 가장 적합한 동시성 처리 방법에 대해 알아보기도 하였다.  
+[나는 어떤 동시성 처리 방법을 선택했는가?](https://j-jeongeun.github.io/posts/Concurrency)
+
+`어떤` 기술/기능을 도입할 때, `왜` 그 방법을 선택했고 비슷한 다른 방법에는 어떤게 있는지에 대해 알아보고 비교하는게 중요하다는 것도 알게 되었다.
