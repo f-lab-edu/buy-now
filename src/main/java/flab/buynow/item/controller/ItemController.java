@@ -39,7 +39,6 @@ public class ItemController {
     /**
      * 전체상품조회
      */
-    // TODO 커서기반 페이징네이션 확인 및 Querydsl로 바꾸기
     @GetMapping("/items")
     public ResponseEntity<List<FindItemDto>> findSliceBy(@RequestParam(defaultValue = "0") long offset,
             @PageableDefault(size=5, sort="id", direction = Direction.ASC) Pageable pageable) {
