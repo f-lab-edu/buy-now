@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="flab.buynow.item.repository.ItemRepository">
+<mapper namespace="flab.buynow.item.repository.ItemMyBatisRepository">
 
     <select id="findById" parameterType="java.lang.Long" resultType="flab.buynow.item.domain.Item">
         SELECT
@@ -11,7 +11,7 @@
             ,stock
             ,start_date
             ,end_date
-        FROM ITEM
+        FROM item
         WHERE id = #{id}
         FOR UPDATE
     </select>
@@ -25,14 +25,14 @@
             ,stock
             ,start_date
             ,end_date
-        FROM ITEM
+        FROM item
         WHERE id > #{offset}
-        ORDER BY ID
+        ORDER BY id ASC
         LIMIT #{limit}
     </select>
 
     <insert id="create" parameterType="flab.buynow.item.domain.Item">
-        INSERT INTO ITEM(
+        INSERT INTO item(
             name
             ,price
             ,sale_price
@@ -50,7 +50,7 @@
     </insert>
 
     <update id="update" parameterType="flab.buynow.item.domain.Item">
-        UPDATE ITEM SET
+        UPDATE item SET
             name = #{name}
             ,price = #{price}
             ,sale_price = #{salePrice}
@@ -61,13 +61,13 @@
     </update>
 
     <update id="minusStock" parameterType="flab.buynow.item.domain.Item">
-        UPDATE ITEM SET
+        UPDATE item SET
             stock = stock - #{stock}
         WHERE id = #{id}
     </update>
 
     <update id="plusStock" parameterType="flab.buynow.item.domain.Item">
-        UPDATE ITEM SET
+        UPDATE item SET
             stock = stock + #{stock}
         WHERE id = #{id}
     </update>

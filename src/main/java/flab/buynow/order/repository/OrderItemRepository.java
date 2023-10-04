@@ -2,14 +2,8 @@ package flab.buynow.order.repository;
 
 import flab.buynow.order.domain.OrderItem;
 import java.util.Optional;
-import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@Mapper
-@Repository
-public interface OrderItemRepository {
-
+public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
     Optional<OrderItem> findByOrderId(Long orderId);
-    int create(OrderItem orderItem);
-
 }

@@ -2,18 +2,16 @@ package flab.buynow.order.service;
 
 import flab.buynow.item.domain.Item;
 import flab.buynow.item.repository.ItemRepository;
-import flab.buynow.item.service.ItemService;
-import flab.buynow.member.dto.PageInfoDto;
 import flab.buynow.order.domain.OrderItem;
 import flab.buynow.order.domain.Orders;
 import flab.buynow.order.enums.ItemStatus;
 import flab.buynow.order.repository.OrderItemRepository;
 import flab.buynow.order.repository.OrderRepository;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,57 +19,53 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class OrderService {
 
-    private final ItemService itemService;
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
     private final ItemRepository itemRepository;
 
-    public Optional<Orders> findById(Long id) {
-        return orderRepository.findById(id);
+    public Orders findById(Long id) {
+        return orderRepository.findById(id).orElseThrow(() -> new IllegalStateException("해당 주문은 존재하지 않습니다."));
     }
 
-    public List<Orders> findAll(PageInfoDto pageInfo) {
-        return orderRepository.findAll(pageInfo);
+    public Slice<Orders> findSliceById(long offset, Pageable pageable) {
+        return orderRepository.findSliceByIdGreaterThan(offset, pageable);
     }
 
     @Transactional
-    public int create(Orders order) {
-        OrderItem orderItem = order.getOrderItem();
+    public OrderItem save(OrderItem orderItem) {
         Item item = itemRepository.findById(orderItem.getItemId())
             .orElseThrow(() -> new IllegalStateException("해당 상품은 존재하지 않습니다."));
 
-        orderItemRepository.create(insertOrderItem(order, orderItem, item));
-        return itemRepository.minusStock(minusStock(orderItem));
-    }
-
-    public int update(Orders order) {
-        return orderRepository.update(order);
-    }
-
-    @Transactional
-    public int cancel(Long id) {
-        OrderItem orderItem = orderItemRepository.findByOrderId(id)
-            .orElseThrow(() -> new IllegalStateException("해당 주문은 존재하지 않습니다."));
-
-        orderRepository.cancel(id);
-        return itemRepository.plusStock(plusStock(orderItem));
-    }
-
-    private OrderItem insertOrderItem(Orders order, OrderItem orderItem, Item item) {
         ItemStatus itemStatus = checkItemStatus(item, orderItem.getQuantity());
         if(itemStatus.equals(ItemStatus.NO_STOCK)) {
             throw new IllegalStateException("재고가 부족하여 주문할 수 없습니다.");
         }
 
-        orderRepository.create(order);
-        BigDecimal ea = new BigDecimal(order.getOrderItem().getQuantity());
+        Orders saveOrder = orderRepository.save(orderItem.getOrder());
+        orderItemRepository.save(new OrderItem(saveOrder.getId(), orderItem, item, itemStatus));
+        item.minusStock(orderItem.getQuantity());
 
-        return order.getOrderItem().builder()
-            .orderId(order.getId())
-            .itemId(orderItem.getItemId())
-            .quantity(orderItem.getQuantity())
-            .price(itemService.getTotalPrice(item, itemStatus, ea))
-            .build();
+        return orderItem;
+    }
+
+    @Transactional
+    public Orders update(Long id, Orders order) {
+        Optional<Orders> hasOrder = orderRepository.findById(id);
+        Orders getOrder = hasOrder.orElseThrow(() -> new IllegalStateException("해당 주문은 존재하지 않습니다."));
+
+        getOrder.updateOrder(order);
+        return order;
+    }
+
+    @Transactional
+    public Orders cancel(Long id) {
+        OrderItem orderItem = orderItemRepository.findByOrderId(id)
+            .orElseThrow(() -> new IllegalStateException("해당 주문은 존재하지 않습니다."));
+
+        orderItem.getOrder().orderCancel(id);
+        orderItem.getItem().plusStock(orderItem.getQuantity());
+
+        return orderItem.getOrder();
     }
 
     private ItemStatus checkItemStatus(Item item, int quantity) {
@@ -86,20 +80,6 @@ public class OrderService {
         }
 
         return ItemStatus.NO_SALE;
-    }
-
-    private Item minusStock(OrderItem orderItem) {
-        return Item.builder()
-            .id(orderItem.getItemId())
-            .stock(orderItem.getQuantity())
-            .build();
-    }
-
-    private Item plusStock(OrderItem orderItem) {
-        return Item.builder()
-            .id(orderItem.getItemId())
-            .stock(orderItem.getQuantity())
-            .build();
     }
 
 }

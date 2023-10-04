@@ -1,12 +1,18 @@
 package flab.buynow.member.controller;
 
 import flab.buynow.member.domain.Member;
+import flab.buynow.member.dto.FindMemberDto;
 import flab.buynow.member.dto.InsertMemberDto;
-import flab.buynow.member.dto.PageInfoDto;
 import flab.buynow.member.dto.UpdateMemberDto;
 import flab.buynow.member.service.MemberService;
 import jakarta.validation.Valid;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,24 +26,26 @@ public class MemberController {
      * 회원조회
      */
     @GetMapping("/member/{loginId}")
-    public ResponseEntity findByLoginId(@PathVariable String loginId) {
-        return ResponseEntity.ok().body(service.findByLoginId(loginId));
+    public ResponseEntity<FindMemberDto> findByLoginId(@PathVariable String loginId) {
+        return ResponseEntity.ok().body(new FindMemberDto(service.findByLoginId(loginId)));
     }
 
     /**
      * 전체회원조회
      */
+    // TODO 커서기반 페이징네이션 확인 및 Querydsl로 바꾸기
     @GetMapping("/members")
-    public ResponseEntity findAll(@RequestParam(defaultValue = "0") Long offset) {
-        PageInfoDto pageInfo = PageInfoDto.builder().offset(offset).build();
-        return ResponseEntity.ok().body(service.findAll(pageInfo));
+    public ResponseEntity<List<FindMemberDto>> findSliceBy(@RequestParam(defaultValue = "0") long offset,
+                @PageableDefault(size=5, sort="id", direction = Direction.ASC) Pageable pageable) {;
+        return ResponseEntity.ok().body(service.findSliceById(offset, pageable).stream().map(FindMemberDto::new)
+            .collect(Collectors.toList()));
     }
 
     /**
      * 회원가입
      */
     @PostMapping("/member")
-    public ResponseEntity create(@RequestBody @Valid InsertMemberDto member) {
+    public ResponseEntity<FindMemberDto> save(@RequestBody @Valid InsertMemberDto member) {
         Member joinMember = Member.builder()
             .loginId(member.getLoginId())
             .password(member.getPassword())
@@ -47,15 +55,14 @@ public class MemberController {
             .addressDetail(member.getAddressDetail())
             .build();
 
-        return ResponseEntity.ok().body(service.create(joinMember));
+        return ResponseEntity.ok().body(new FindMemberDto(service.save(joinMember)));
     }
 
     /**
      * 회원정보수정
      */
     @PutMapping("/member/{loginId}")
-    public ResponseEntity update(@PathVariable String loginId,
-        @RequestBody @Valid UpdateMemberDto member) {
+    public ResponseEntity<FindMemberDto> update(@PathVariable String loginId, @RequestBody @Valid UpdateMemberDto member) {
         Member updateMember = Member.builder()
             .loginId(loginId)
             .password(member.getPassword())
@@ -65,7 +72,7 @@ public class MemberController {
             .addressDetail(member.getAddressDetail())
             .build();
 
-        return ResponseEntity.ok().body(service.update(updateMember));
+        return ResponseEntity.ok().body(new FindMemberDto(service.update(loginId, updateMember)));
     }
 
 }

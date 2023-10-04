@@ -1,15 +1,23 @@
 package flab.buynow.order.controller;
 
 import flab.buynow.common.Util;
-import flab.buynow.member.dto.PageInfoDto;
+import flab.buynow.member.domain.Member;
 import flab.buynow.order.domain.OrderItem;
 import flab.buynow.order.domain.Orders;
+import flab.buynow.order.dto.FindOrderDto;
+import flab.buynow.order.dto.FindOrderItemDto;
 import flab.buynow.order.dto.InsertOrderDto;
+import flab.buynow.order.dto.UpdateOrderDto;
 import flab.buynow.order.enums.OrderStatus;
 import flab.buynow.order.service.OrderService;
 import jakarta.validation.Valid;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,17 +40,19 @@ public class OrderController {
      * 주문조회
      */
     @GetMapping("/order/{id}")
-    public ResponseEntity findById(@PathVariable Long id) {
-        return ResponseEntity.ok().body(service.findById(id));
+    public ResponseEntity<FindOrderDto> findById(@PathVariable Long id) {
+        return ResponseEntity.ok().body(new FindOrderDto(service.findById(id)));
     }
 
     /**
      * 전체 주문조회
      */
+    // TODO 커서기반 페이징네이션 확인 및 Querydsl로 바꾸기
     @GetMapping("/orders")
-    public ResponseEntity findAll(@RequestParam(defaultValue = "0") Long offset) {
-        PageInfoDto pageInfo = PageInfoDto.builder().offset(offset).build();
-        return ResponseEntity.ok().body(service.findAll(pageInfo));
+    public ResponseEntity<List<FindOrderDto>> findSliceBy(@RequestParam(defaultValue = "0") long offset,
+            @PageableDefault(size=5, sort="id", direction = Direction.ASC) Pageable pageable) {
+        return ResponseEntity.ok().body(service.findSliceById(offset, pageable).stream().map(FindOrderDto::new).collect(
+            Collectors.toList()));
     }
 
     /**
@@ -50,32 +60,31 @@ public class OrderController {
      */
     @Transactional
     @PostMapping("/order")
-    public ResponseEntity create(@RequestBody @Valid InsertOrderDto order) {
-        OrderItem orderItem = OrderItem.builder()
-            .itemId(order.getItemId())
-            .quantity(order.getQuantity())
-            .build();
-
+    public ResponseEntity<FindOrderItemDto> save(@RequestBody @Valid InsertOrderDto order) {
         Orders insertOrder = Orders.builder()
-            .userId(order.getUserId())
+            .member(new Member(order.getUserId()))
             .orderNo(Util.getUuidBasedOnTime())
             .name(order.getName())
             .telephoneNumber(order.getTelephoneNumber())
             .address(order.getAddress())
             .addressDetail(order.getAddressDetail())
             .status(OrderStatus.NORMAL)
-            .orderItem(orderItem)
             .build();
 
-        return ResponseEntity.ok().body(service.create(insertOrder));
+        OrderItem insertOrderItem = OrderItem.builder()
+            .itemId(order.getItemId())
+            .quantity(order.getQuantity())
+            .order(insertOrder)
+            .build();
+
+        return ResponseEntity.ok().body(new FindOrderItemDto(service.save(insertOrderItem)));
     }
 
     /**
      * 주문수정
      */
     @PutMapping("/order/{id}")
-    public ResponseEntity update(@PathVariable Long id,
-                                @RequestBody @Valid InsertOrderDto order) {
+    public ResponseEntity<FindOrderDto> update(@PathVariable Long id, @RequestBody @Valid UpdateOrderDto order) {
         Orders updateOrder = Orders.builder()
             .id(id)
             .name(order.getName())
@@ -83,15 +92,15 @@ public class OrderController {
             .address(order.getAddress())
             .addressDetail(order.getAddressDetail())
             .build();
-        return ResponseEntity.ok().body(service.update(updateOrder));
+        return ResponseEntity.ok().body(new FindOrderDto(service.update(id, updateOrder)));
     }
 
     /**
      * 주문취소
      */
     @PatchMapping("/order/{id}")
-    public ResponseEntity cancel(@PathVariable Long id) {
-        return ResponseEntity.ok().body(service.cancel(id));
+    public ResponseEntity<FindOrderDto> cancel(@PathVariable Long id) {
+        return ResponseEntity.ok().body(new FindOrderDto(service.cancel(id)));
     }
 
 }
