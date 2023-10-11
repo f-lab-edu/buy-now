@@ -7,7 +7,6 @@ import flab.buynow.item.dto.UpdateItemDto;
 import flab.buynow.item.service.ItemService;
 import jakarta.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;

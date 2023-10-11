@@ -7,7 +7,6 @@ import flab.buynow.member.dto.UpdateMemberDto;
 import flab.buynow.member.service.MemberService;
 import jakarta.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -35,7 +34,7 @@ public class MemberController {
      */
     @GetMapping("/members")
     public ResponseEntity<List<FindMemberDto>> findSliceBy(@RequestParam(defaultValue = "0") long offset,
-                @PageableDefault(size=5, sort="id", direction = Direction.ASC) Pageable pageable) {;
+                @PageableDefault(size=5, sort="id", direction = Direction.ASC) Pageable pageable) {
         return ResponseEntity.ok().body(service.findSliceById(offset, pageable).stream().map(FindMemberDto::new)
             .collect(Collectors.toList()));
     }
