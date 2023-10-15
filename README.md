@@ -52,3 +52,10 @@
 [나는 어떤 동시성 처리 방법을 선택했는가?](https://j-jeongeun.github.io/posts/Concurrency)
 
 `어떤` 기술/기능을 도입할 때, `왜` 그 방법을 선택했고 비슷한 다른 방법에는 어떤게 있는지에 대해 알아보고 비교하는게 중요하다는 것도 알게 되었다.
+
+---
+### 7. 프로젝트 관련 블로그 글
+<a href="https://j-jeongeun.github.io/posts/login(cookie-and-session)">로그인 기능 구현(1) - Cookie & Session</a><br>
+<a href="https://j-jeongeun.github.io/posts/login(JWT)">로그인 기능 구현(2) - JWT(Json Web Token)</a><br>
+<a href="https://j-jeongeun.github.io/posts/Paging">페이징을 처리하는 2가지 방법</a><br>
+<a href="https://j-jeongeun.github.io/posts/Concurrency">동시성 처리는 어떻게 하는게 좋을까?</a>
