@@ -40,10 +40,12 @@
 
 1. 페이징 처리
 	: 초기 페이지에서는 하단에 페이지 번호를 두고 이동하는 방식의 offset 방식을 사용하였다. 하지만, 요즘 대부분의 웹페이지에서는 페이지 번호보다는 스크롤을 내리면서 목록을 조회하는 방식을 많이 사용하고 있다. 그리고 offset 방식의 성능 issue가 있기 때문에 no-offset 방식을 사용하여 페이징 처리를 하기로 하였다.  
-	페이징 처리를 적용한 방식과 offset/no-offset 방식의 성능 차이는 아래 링크를 확인해보자. <a href="https://j-jeongeun.github.io/posts/Paging">(페이징을 처리하는 2가지 방법)</a>
+	페이징 처리를 적용한 방식과 offset/no-offset 방식의 성능 차이는 아래 링크를 확인해보자.  
+	<a href="https://j-jeongeun.github.io/posts/Paging">(페이징을 처리하는 2가지 방법)</a>
 3. 동시성 처리
 	: 여러 사용자에게 동시에 주문이 들어올 경우, 상품의 재고가 맞지 않는 경우가 발생하였다. 예를 들어, 100명의 사용자가 동시에 1개씩 100건을 요청하였는데 물품의 최종 재고는 0개가 아닌 n개의 결과가 나왔다. 그래서 해당 문제를 해결할 수 있는 방법에 대하여 고민 해본 결과 `비관적 락`을 이용하기로 하였다. 실제 상품의 재고를 조회해오는 `SELECT`절에 `FOR UPDATE`를 추가하여 해당 상품의 조회에 `Lock`을 걸어 `주문`이라는 하나의 트랜잭션이 완료될 때까지 다른 요청은 대기를 시키는 방식으로 해결하였다.  
-	`비관적 락`을 이용한 방법 이외의 다른 방법들과 테스트 결과는 아래의 링크를 확인해보자. <a href="https://j-jeongeun.github.io/posts/Concurrency">(동시성 처리는 어떻게 하는게 좋을까?)</a>
+	`비관적 락`을 이용한 방법 이외의 다른 방법들과 테스트 결과는 아래의 링크를 확인해보자.  
+	<a href="https://j-jeongeun.github.io/posts/Concurrency">(동시성 처리는 어떻게 하는게 좋을까?)</a>
 
 ### 8. 그 외 프로젝트 관련 블로그 글
 <a href="https://j-jeongeun.github.io/posts/login(cookie-and-session)">로그인 기능 구현(1) - Cookie & Session</a><br>
