@@ -1,21 +1,15 @@
 package flab.buynow.item.repository;
 
-import flab.buynow.common.dto.PageInfoDto;
 import flab.buynow.item.domain.Item;
-import java.util.List;
+import jakarta.persistence.LockModeType;
 import java.util.Optional;
-import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Lock;
 
-@Mapper
-@Repository
-public interface ItemRepository {
-
+public interface ItemRepository extends JpaRepository<Item, Long> {
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
     Optional<Item> findById(Long id);
-    List<Item> findAll(PageInfoDto pageInfo);
-    int create(Item item);
-    int update(Item item);
-    int minusStock(Item item);
-    int plusStock(Item item);
-
+    Slice<Item> findSliceByIdGreaterThan(long offset, Pageable pageable);
 }

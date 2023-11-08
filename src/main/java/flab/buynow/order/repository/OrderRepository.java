@@ -1,20 +1,10 @@
 package flab.buynow.order.repository;
 
-import flab.buynow.member.dto.PageInfoDto;
 import flab.buynow.order.domain.Orders;
-import java.util.List;
-import java.util.Optional;
-import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@Mapper
-@Repository
-public interface OrderRepository {
-
-    Optional<Orders> findById(Long id);
-    List<Orders> findAll(PageInfoDto pageInfo);
-    long create(Orders order);
-    int update(Orders order);
-    int cancel(Long id);
-
+public interface OrderRepository extends JpaRepository<Orders, Long> {
+    Slice<Orders> findSliceByIdGreaterThan(long offset, Pageable pageable);
 }

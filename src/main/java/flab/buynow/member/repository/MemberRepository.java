@@ -1,19 +1,13 @@
 package flab.buynow.member.repository;
 
 import flab.buynow.member.domain.Member;
-import flab.buynow.member.dto.PageInfoDto;
-import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
 import java.util.Optional;
 
-@Mapper
-@Repository
-public interface MemberRepository {
-
+public interface MemberRepository extends JpaRepository<Member, Long> {
     Optional<Member> findByLoginId(String loginId);
-    List<Member> findAll(PageInfoDto pageInfo);
-    int create(Member member);
-    int update(Member member);
+    Slice<Member> findSliceByIdGreaterThan(long offset, Pageable pageable);
 }

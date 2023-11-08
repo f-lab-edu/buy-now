@@ -1,38 +1,39 @@
 package flab.buynow.item.service;
 
-import flab.buynow.common.dto.PageInfoDto;
 import flab.buynow.item.domain.Item;
 import flab.buynow.item.repository.ItemRepository;
-import flab.buynow.order.enums.ItemStatus;
-import java.math.BigDecimal;
-import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class ItemService {
 
-    private final ItemRepository repository;
+    private final ItemRepository itemRepository;
 
-    public Optional<Item> findById(Long id) {
-        return repository.findById(id);
+    @Transactional
+    public Item findById(Long id) {
+        return itemRepository.findById(id).orElseThrow(() -> new IllegalStateException("해당 Item은 존재하지 않습니다."));
     }
 
-    public List<Item> findAll(PageInfoDto pageInfo) {
-        return repository.findAll(pageInfo);
+    public Slice<Item> findSliceById(long offset, Pageable pageable) {
+        return itemRepository.findSliceByIdGreaterThan(offset, pageable);
     }
 
-    public int create(Item item) {
-        return repository.create(item);
+    public Item save(Item item) {
+        return itemRepository.save(item);
     }
 
-    public int update(Item item) {
-        return repository.update(item);
-    }
+    @Transactional
+    public Item update(Long id, Item item) {
+        Optional<Item> hasItem = itemRepository.findById(id);
+        Item getItem = hasItem.orElseThrow(() -> new IllegalStateException("해당 Item은 존재하지 않습니다."));
 
-    public BigDecimal getTotalPrice(Item item, ItemStatus itemStatus, BigDecimal ea) {
-        return ea.multiply(itemStatus.equals(ItemStatus.NO_SALE) ? item.getPrice() : item.getSalePrice());
+        getItem.updateItem(item);
+        return item;
     }
 }
