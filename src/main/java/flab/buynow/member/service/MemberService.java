@@ -1,40 +1,46 @@
 package flab.buynow.member.service;
 
 import flab.buynow.member.domain.Member;
-import flab.buynow.member.dto.PageInfoDto;
 import flab.buynow.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class MemberService {
 
-    private final MemberRepository repository;
+    private final MemberRepository memberRepository;
 
-    public Optional<Member> findByLoginId(String loginId) {
-        return repository.findByLoginId(loginId);
+    public Member findByLoginId(String loginId) {
+        return memberRepository.findByLoginId(loginId).orElseThrow(() -> new IllegalStateException("해당 회원은 존재하지 않습니다."));
     }
 
-    public List<Member> findAll(PageInfoDto pageInfo) {
-        return repository.findAll(pageInfo);
+    public Slice<Member> findSliceById(long offset, Pageable pageable) {
+        return memberRepository.findSliceByIdGreaterThan(offset, pageable);
     }
 
-    public int create(Member member) {
-        Optional<Member> hasMember = repository.findByLoginId(member.getLoginId());
+    public Member save(Member member) {
+        Optional<Member> hasMember = memberRepository.findByLoginId(member.getLoginId());
 
         if (!hasMember.isEmpty()) {
             throw new IllegalStateException("ID가 이미 존재합니다.");
         }
 
-        return repository.create(member);
+        return memberRepository.save(member);
     }
 
-    public int update(Member member) {
-        return repository.update(member);
+    @Transactional
+    public Member update(String loginId, Member member) {
+        Optional<Member> hasMember = memberRepository.findByLoginId(loginId);
+        Member getMember = hasMember.orElseThrow(() -> new IllegalStateException("해당 회원은 존재하지 않습니다."));
+
+        getMember.updateMember(member);
+        return getMember;
     }
 
 }
