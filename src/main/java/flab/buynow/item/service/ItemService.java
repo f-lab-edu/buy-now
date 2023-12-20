@@ -15,7 +15,6 @@ public class ItemService {
 
     private final ItemRepository itemRepository;
 
-    @Transactional
     public Item findById(Long id) {
         return itemRepository.findById(id).orElseThrow(() -> new IllegalStateException("해당 Item은 존재하지 않습니다."));
     }

@@ -18,12 +18,11 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         /**
          * 로그인 여부 확인과 admin 권한 여부 체크
-         * 원활한 테스트를 위하여 해당 interceptors는 임시 주석 처리
+         * 원활한 테스트를 위하여 해당 interceptors는 경우에 주석 처리할 수 있습니다.
          * 1) 로그인 여부(session)에 따라 session == null일 경우, 로그인 재요청
          * 2) admin 권한 여부(adminYn)에 따라 api 요청 또는 페이지 권한 부여
          *    현재는 관리자/일반회원 여부만 1차 확인 후 별다른 권한은 부여하지 않음
          */
-        /*
         registry.addInterceptor(loginInterceptor)
             .order(1)
             .addPathPatterns("/**")
@@ -33,6 +32,5 @@ public class WebConfig implements WebMvcConfigurer {
             .order(2)
             .addPathPatterns("/**")
             .excludePathPatterns("/login", "/logout");
-         */
     }
 }

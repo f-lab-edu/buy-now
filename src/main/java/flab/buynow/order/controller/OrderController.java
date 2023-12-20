@@ -19,7 +19,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -57,7 +56,6 @@ public class OrderController {
     /**
      * 주문
      */
-    @Transactional
     @PostMapping("/order")
     public ResponseEntity<FindOrderItemDto> save(@RequestBody @Valid InsertOrderDto order) {
         Orders insertOrder = Orders.builder()
