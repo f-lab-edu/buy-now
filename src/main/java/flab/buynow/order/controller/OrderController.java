@@ -33,14 +33,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class OrderController {
 
-    private final OrderService service;
+    private final OrderService orderService;
 
     /**
      * 주문조회
      */
     @GetMapping("/order/{id}")
     public ResponseEntity<FindOrderDto> findById(@PathVariable Long id) {
-        return ResponseEntity.ok().body(new FindOrderDto(service.findById(id)));
+        return ResponseEntity.ok().body(new FindOrderDto(orderService.findById(id)));
     }
 
     /**
@@ -49,7 +49,7 @@ public class OrderController {
     @GetMapping("/orders")
     public ResponseEntity<List<FindOrderDto>> findSliceBy(@RequestParam(defaultValue = "0") long offset,
             @PageableDefault(size=5, sort="id", direction = Direction.ASC) Pageable pageable) {
-        return ResponseEntity.ok().body(service.findSliceById(offset, pageable).stream().map(FindOrderDto::new).collect(
+        return ResponseEntity.ok().body(orderService.findSliceById(offset, pageable).stream().map(FindOrderDto::new).collect(
             Collectors.toList()));
     }
 
@@ -74,7 +74,7 @@ public class OrderController {
             .order(insertOrder)
             .build();
 
-        return ResponseEntity.ok().body(new FindOrderItemDto(service.save(insertOrderItem)));
+        return ResponseEntity.ok().body(new FindOrderItemDto(orderService.save(insertOrderItem)));
     }
 
     /**
@@ -89,7 +89,7 @@ public class OrderController {
             .address(order.getAddress())
             .addressDetail(order.getAddressDetail())
             .build();
-        return ResponseEntity.ok().body(new FindOrderDto(service.update(id, updateOrder)));
+        return ResponseEntity.ok().body(new FindOrderDto(orderService.update(id, updateOrder)));
     }
 
     /**
@@ -97,7 +97,7 @@ public class OrderController {
      */
     @PatchMapping("/order/{id}")
     public ResponseEntity<FindOrderDto> cancel(@PathVariable Long id) {
-        return ResponseEntity.ok().body(new FindOrderDto(service.cancel(id)));
+        return ResponseEntity.ok().body(new FindOrderDto(orderService.cancel(id)));
     }
 
 }

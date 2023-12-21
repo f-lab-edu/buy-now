@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class LoginController {
 
-    private final LoginService service;
+    private final LoginService loginService;
 
     /**
      * 로그인
@@ -24,7 +24,7 @@ public class LoginController {
     public ResponseEntity<LoginMemberDto> login(@RequestParam String loginId, @RequestParam String password,
         HttpServletRequest request) {
 
-        Member loginMember = service.login(loginId, password);
+        Member loginMember = loginService.login(loginId, password);
 
         HttpSession session = request.getSession();
         session.setAttribute("loginId", loginMember.getLoginId());

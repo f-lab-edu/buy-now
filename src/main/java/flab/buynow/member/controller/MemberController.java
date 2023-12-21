@@ -19,14 +19,14 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class MemberController {
 
-    private final MemberService service;
+    private final MemberService memberService;
 
     /**
      * 회원조회
      */
     @GetMapping("/member/{loginId}")
     public ResponseEntity<FindMemberDto> findByLoginId(@PathVariable String loginId) {
-        return ResponseEntity.ok().body(new FindMemberDto(service.findByLoginId(loginId)));
+        return ResponseEntity.ok().body(new FindMemberDto(memberService.findByLoginId(loginId)));
     }
 
     /**
@@ -35,7 +35,7 @@ public class MemberController {
     @GetMapping("/members")
     public ResponseEntity<List<FindMemberDto>> findSliceBy(@RequestParam(defaultValue = "0") long offset,
                 @PageableDefault(size=5, sort="id", direction = Direction.ASC) Pageable pageable) {
-        return ResponseEntity.ok().body(service.findSliceById(offset, pageable).stream().map(FindMemberDto::new)
+        return ResponseEntity.ok().body(memberService.findSliceById(offset, pageable).stream().map(FindMemberDto::new)
             .collect(Collectors.toList()));
     }
 
@@ -53,7 +53,7 @@ public class MemberController {
             .addressDetail(member.getAddressDetail())
             .build();
 
-        return ResponseEntity.ok().body(new FindMemberDto(service.save(joinMember)));
+        return ResponseEntity.ok().body(new FindMemberDto(memberService.save(joinMember)));
     }
 
     /**
@@ -70,7 +70,7 @@ public class MemberController {
             .addressDetail(member.getAddressDetail())
             .build();
 
-        return ResponseEntity.ok().body(new FindMemberDto(service.update(loginId, updateMember)));
+        return ResponseEntity.ok().body(new FindMemberDto(memberService.update(loginId, updateMember)));
     }
 
 }

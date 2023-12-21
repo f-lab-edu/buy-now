@@ -25,14 +25,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class ItemController {
     
-    private final ItemService service;
+    private final ItemService itemService;
 
     /**
      * 상품조회
      */
     @GetMapping("/item/{id}")
     public ResponseEntity<FindItemDto> findById(@PathVariable Long id){
-        return ResponseEntity.ok().body(new FindItemDto(service.findById(id)));
+        return ResponseEntity.ok().body(new FindItemDto(itemService.findById(id)));
     }
 
     /**
@@ -41,7 +41,7 @@ public class ItemController {
     @GetMapping("/items")
     public ResponseEntity<List<FindItemDto>> findSliceBy(@RequestParam(defaultValue = "0") long offset,
             @PageableDefault(size=5, sort="id", direction = Direction.ASC) Pageable pageable) {
-        return ResponseEntity.ok().body(service.findSliceById(offset, pageable).stream().map(FindItemDto::new).collect(
+        return ResponseEntity.ok().body(itemService.findSliceById(offset, pageable).stream().map(FindItemDto::new).collect(
             Collectors.toList()));
     }
 
@@ -58,7 +58,7 @@ public class ItemController {
                                 .startDate(item.getStartDate())
                                 .endDate(item.getEndDate())
                                 .build();
-        return ResponseEntity.ok().body(new FindItemDto(service.save(createItem)));
+        return ResponseEntity.ok().body(new FindItemDto(itemService.save(createItem)));
     }
 
     /**
@@ -75,7 +75,7 @@ public class ItemController {
                                 .startDate(item.getStartDate())
                                 .endDate(item.getEndDate())
                                 .build();
-        return ResponseEntity.ok().body(new FindItemDto(service.update(id, updateItem)));
+        return ResponseEntity.ok().body(new FindItemDto(itemService.update(id, updateItem)));
     }
 
 }
